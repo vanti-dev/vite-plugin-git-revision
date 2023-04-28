@@ -1,5 +1,5 @@
-import { Plugin } from 'vite'
-import { runGitCommand } from './helpers/run-git-command'
+import {Plugin} from 'vite'
+import {runGitCommand} from './helpers/run-git-command'
 
 const COMMITHASH_COMMAND = 'rev-parse HEAD'
 const VERSION_COMMAND = 'describe --always'
@@ -34,11 +34,17 @@ export default (options: ViteGitRevisionPlugin): Plugin => {
     if (options.versionCommand && options.lightweightTags) {
         throw new Error('lightweightTags can\'t be used together versionCommand')
     }
-  
+
     return {
       name: 'vite:git-revision',
       config(config:any) {
-          config.define.VERSION = JSON.stringify(runGitCommand(options.gitWorkTree,options.versionCommand))
+          return {
+              define: {
+                  GITVERSION: JSON.stringify(runGitCommand(options.gitWorkTree, options.versionCommand)),
+                  COMMITHASH: JSON.stringify(runGitCommand(options.gitWorkTree, options.commithashCommand)),
+                  BRANCH: JSON.stringify(runGitCommand(options.gitWorkTree, options.branchCommand))
+              }
+          };
       }
     };
   };
