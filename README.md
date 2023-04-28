@@ -3,7 +3,7 @@
 [![npm version](https://badgen.net/npm/v/vite-plugin-git-revision)](https://www.npmjs.com/package/vite-plugin-git-revision)
 [![monthly downloads](https://badgen.net/npm/dm/vite-plugin-git-revision)](https://www.npmjs.com/package/vite-plugin-git-revision)
 
-> Git version info for Vue 3 applications using [Vite](https://github.com/vitejs/vite)
+Vite plugin that generates GITVERSION and COMMITHASH vars during build. Tested with Vue 2.7
 
 ## Getting Started
 
@@ -81,6 +81,24 @@ change the default git command used to read the value of COMMITHASH.
 - **Default:** `rev-parse --abbrev-ref HEAD`
 
 change the default git command used to read the value of BRANCH.
+
+## Usage
+
+```vue
+
+<template>
+  <span>App version: {{ appVersion }}</span>
+</template>
+
+<script setup>
+import {computed} from 'vue';
+
+const appVersion = computed(() => {
+  return GITVERSION;
+});
+</script>
+
+```
 
 ## License
 
